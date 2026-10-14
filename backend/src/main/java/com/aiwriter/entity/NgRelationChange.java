@@ -1,0 +1,184 @@
+package com.aiwriter.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+
+/** 事件引发关系变化。 */
+@TableName("ng_relation_change")
+public class NgRelationChange {
+  /** 主键。 */
+  @TableId(type = IdType.AUTO)
+  private Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long value) {
+    id = value;
+  }
+  /** 所属租户。 */
+  @TableField("tenant_id")
+  private Long tenantId;
+
+  public Long getTenantId() {
+    return tenantId;
+  }
+
+  public void setTenantId(Long value) {
+    tenantId = value;
+  }
+  /** 所属项目。 */
+  @TableField("project_id")
+  private Long projectId;
+
+  public Long getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(Long value) {
+    projectId = value;
+  }
+  /** 名称。 */
+  @TableField("name")
+  private String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String value) {
+    name = value;
+  }
+  /** 公开描述。 */
+  @TableField("description")
+  private String description;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String value) {
+    description = value;
+  }
+  /** 读者揭示章节。 */
+  @TableField("reveal_chapter")
+  private Integer revealChapter;
+
+  public Integer getRevealChapter() {
+    return revealChapter;
+  }
+
+  public void setRevealChapter(Integer value) {
+    revealChapter = value;
+  }
+  /** 可见边界。 */
+  @TableField("visibility")
+  private String visibility;
+
+  public String getVisibility() {
+    return visibility;
+  }
+
+  public void setVisibility(String value) {
+    visibility = value;
+  }
+  /** 该实体扩展属性JSON。 */
+  @TableField("data")
+  private String data;
+
+  public String getData() {
+    return data;
+  }
+
+  public void setData(String value) {
+    data = value;
+  }
+  /** 资料版本。 */
+  @TableField("revision")
+  private Long revision;
+
+  public Long getRevision() {
+    return revision;
+  }
+
+  public void setRevision(Long value) {
+    revision = value;
+  }
+  /** 软删除。 */
+  @TableField("deleted")
+  private Integer deleted;
+
+  public Integer getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Integer value) {
+    deleted = value;
+  }
+  /** 创建者。 */
+  @TableField("created_by")
+  private Long createdBy;
+
+  public Long getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(Long value) {
+    createdBy = value;
+  }
+  /** 关系。 */
+  @TableField("relation_id")
+  private Long relationId;
+
+  public Long getRelationId() {
+    return relationId;
+  }
+
+  public void setRelationId(Long value) {
+    relationId = value;
+  }
+  /** 触发事件。 */
+  @TableField("event_id")
+  private Long eventId;
+
+  public Long getEventId() {
+    return eventId;
+  }
+
+  public void setEventId(Long value) {
+    eventId = value;
+  }
+  /** 生效序号。 */
+  @TableField("effective_seq")
+  private Long effectiveSeq;
+
+  public Long getEffectiveSeq() {
+    return effectiveSeq;
+  }
+
+  public void setEffectiveSeq(Long value) {
+    effectiveSeq = value;
+  }
+  /** 创建时间。 */
+  @TableField("created_at")
+  private java.util.Date createdAt;
+
+  public java.util.Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(java.util.Date value) {
+    createdAt = value;
+  }
+  /** 更新时间。 */
+  @TableField("updated_at")
+  private java.util.Date updatedAt;
+
+  public java.util.Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(java.util.Date value) {
+    updatedAt = value;
+  }
+}

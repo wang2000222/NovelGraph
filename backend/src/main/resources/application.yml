@@ -1,0 +1,62 @@
+server:
+  port: ${SERVER_PORT:8080}
+logging:
+  file:
+    path: ${NG_LOG_DIR:logs}
+spring:
+  mail:
+    host: ${SPRING_MAIL_HOST:}
+    port: ${SPRING_MAIL_PORT:465}
+    username: ${SPRING_MAIL_USERNAME:}
+    password: ${SPRING_MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+  application:
+    name: novelgraph-api
+  datasource:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3306/novelgraph?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  flyway:
+    enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+knife4j:
+  enable: true
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    return-instance-for-empty-row: true
+    jdbc-type-for-null: 'NULL'
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+saas:
+  # 初始内测价格与额度，仅用于首次初始化；后续在运营后台修改并留存权益版本。
+  initial-plans: '[{"code":"FREE","name":"免费空间","monthlyPrice":0,"limits":{"projects":3,"seats":1,"entities":100,"associations":1000,"storageBytes":10485760,"snapshots":10}},{"code":"PRO","name":"个人专业版","monthlyPrice":29,"limits":{"projects":30,"seats":3,"entities":2000,"associations":10000,"storageBytes":104857600,"snapshots":100}},{"code":"TEAM","name":"团队创作版","monthlyPrice":99,"limits":{"projects":100,"seats":20,"entities":10000,"associations":50000,"storageBytes":524288000,"snapshots":500}}]'
+  verify-email: ${NG_VERIFY_EMAIL:true}
+  public-url: ${NG_PUBLIC_URL:http://localhost:5173}
+  secure-cookie: ${NG_SECURE_COOKIE:false}
+  allowed-origins: ${NG_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173}
+  admin-email: ${NG_ADMIN_EMAIL:}
+  admin-password: ${NG_ADMIN_PASSWORD:}
+  mail-from: ${NG_MAIL_FROM:}
+

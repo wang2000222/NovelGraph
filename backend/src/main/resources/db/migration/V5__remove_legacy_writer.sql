@@ -1,0 +1,35 @@
+-- 用户明确要求全新项目：永久清理旧生成平台业务表，不迁移旧作品。
+-- 保留新SaaS表及Flyway版本记录。
+DROP TABLE IF EXISTS node_artifact;
+DROP TABLE IF EXISTS llm_usage_log;
+DROP TABLE IF EXISTS node_run;
+DROP TABLE IF EXISTS workflow_run;
+DROP TABLE IF EXISTS workflow_edge;
+DROP TABLE IF EXISTS workflow_node;
+DROP TABLE IF EXISTS workflow_version;
+DROP TABLE IF EXISTS workflow_definition;
+DROP TABLE IF EXISTS chapter_version;
+DROP TABLE IF EXISTS chapter;
+DROP TABLE IF EXISTS novel_setting_revision;
+DROP TABLE IF EXISTS event_dependency;
+DROP TABLE IF EXISTS novel_chapter_plan;
+DROP TABLE IF EXISTS novel_character;
+DROP TABLE IF EXISTS novel_world_rule;
+DROP TABLE IF EXISTS novel_location;
+DROP TABLE IF EXISTS novel_item;
+DROP TABLE IF EXISTS novel_relationship;
+DROP TABLE IF EXISTS novel_foreshadowing;
+DROP TABLE IF EXISTS novel_event;
+DROP TABLE IF EXISTS novel_memory_fact;
+DROP TABLE IF EXISTS character_state;
+DROP TABLE IF EXISTS knowledge_state;
+DROP TABLE IF EXISTS novel_chapter_summary;
+DROP TABLE IF EXISTS memory_chunk;
+DROP TABLE IF EXISTS outbox_event;
+DROP TABLE IF EXISTS memory_rebuild_job;
+DROP TABLE IF EXISTS audit_log;
+DROP TABLE IF EXISTS prompt_template;
+DROP TABLE IF EXISTS ai_model;
+DROP TABLE IF EXISTS ai_credential;
+DROP TABLE IF EXISTS ai_provider;
+DROP TABLE IF EXISTS novel_project;

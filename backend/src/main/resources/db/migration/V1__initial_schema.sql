@@ -1,0 +1,412 @@
+-- AI小说创作平台；仅创建新表，不删除或覆盖已有业务数据。
+
+CREATE TABLE novel_project (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  title VARCHAR(200) NOT NULL COMMENT '小说标题',
+  genre VARCHAR(100) NULL COMMENT '题材',
+  style TEXT NULL COMMENT '写作风格',
+  word_target BIGINT NOT NULL DEFAULT 0 COMMENT '目标总字数',
+  budget DECIMAL(18,6) NOT NULL DEFAULT 100 COMMENT '项目费用预算',
+  memory_dirty_from INT NULL COMMENT '需重建记忆的起始章节',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='小说项目';
+
+CREATE TABLE novel_character (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '名称',
+  priority INT NOT NULL DEFAULT 0 COMMENT '优先级',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_character_idx_novel (novel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='人物档案';
+
+CREATE TABLE novel_world_rule (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '名称',
+  priority INT NOT NULL DEFAULT 0 COMMENT '优先级',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_world_rule_idx_novel (novel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='世界规则';
+
+CREATE TABLE novel_location (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '名称',
+  priority INT NOT NULL DEFAULT 0 COMMENT '优先级',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_location_idx_novel (novel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地点设定';
+
+CREATE TABLE novel_item (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '名称',
+  priority INT NOT NULL DEFAULT 0 COMMENT '优先级',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_item_idx_novel (novel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='物品设定';
+
+CREATE TABLE novel_relationship (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '名称',
+  priority INT NOT NULL DEFAULT 0 COMMENT '优先级',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_relationship_idx_novel (novel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='人物关系';
+
+CREATE TABLE novel_foreshadowing (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '名称',
+  priority INT NOT NULL DEFAULT 0 COMMENT '优先级',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_foreshadowing_idx_novel (novel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='伏笔';
+
+CREATE TABLE novel_event (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  name VARCHAR(200) NOT NULL COMMENT '事件名称',
+  story_seq BIGINT NOT NULL COMMENT '故事时间序号',
+  narrative_order INT NOT NULL DEFAULT 0 COMMENT '叙事出现顺序',
+  mandatory BOOLEAN NOT NULL DEFAULT TRUE COMMENT '是否强制事件',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_event_idx_novel_story (novel_id,story_seq)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='故事事件';
+
+CREATE TABLE event_dependency (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  event_id BIGINT NOT NULL COMMENT '后续事件',
+  depends_on_id BIGINT NOT NULL COMMENT '前置事件',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY event_dependency_uk_dependency (event_id,depends_on_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='事件依赖';
+
+CREATE TABLE novel_chapter_plan (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  chapter_no INT NOT NULL COMMENT '章节序号',
+  story_seq BIGINT NOT NULL COMMENT '故事时间锚点',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY novel_chapter_plan_uk_plan (novel_id,chapter_no)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='章节计划';
+
+CREATE TABLE chapter (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  chapter_no INT NOT NULL COMMENT '章节序号',
+  title VARCHAR(200) NOT NULL COMMENT '章节标题',
+  story_seq BIGINT NOT NULL COMMENT '故事时间锚点',
+  current_version_id BIGINT NULL COMMENT '当前草稿或正式版本',
+  committed_version_id BIGINT NULL COMMENT '最后提交版本',
+  lock_version INT NOT NULL DEFAULT 0 COMMENT '乐观锁版本',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  data LONGTEXT NOT NULL COMMENT '业务详情JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY chapter_uk_chapter (novel_id,chapter_no)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='章节';
+
+CREATE TABLE chapter_version (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  chapter_id BIGINT NOT NULL COMMENT '所属章节',
+  version_no INT NOT NULL COMMENT '版本序号',
+  content LONGTEXT NOT NULL COMMENT '章节正文',
+  proposals LONGTEXT NOT NULL COMMENT '事实变更提案JSON',
+  review LONGTEXT NULL COMMENT '规则和模型审核报告JSON',
+  generation_key VARCHAR(128) NULL COMMENT '生成草稿幂等键',
+  commit_key VARCHAR(128) NULL COMMENT '定稿幂等键',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY chapter_version_uk_version (chapter_id,version_no),
+  UNIQUE KEY chapter_version_uk_generation (generation_key),
+  UNIQUE KEY chapter_version_uk_commit (commit_key)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='章节正文版本';
+
+CREATE TABLE novel_memory_fact (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  entity_id VARCHAR(100) NOT NULL COMMENT '实体或知情者标识',
+  fact_key VARCHAR(100) NOT NULL COMMENT '事实属性键',
+  fact_value LONGTEXT NOT NULL COMMENT '事实值JSON',
+  valid_from BIGINT NOT NULL COMMENT '生效故事时间',
+  valid_to BIGINT NULL COMMENT '失效故事时间（不含）',
+  source_version_id BIGINT NULL COMMENT '来源章节正文版本',
+  source_chapter_no INT NOT NULL DEFAULT 0 COMMENT '来源叙事章节序号，0为作者设定',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY novel_memory_fact_idx_fact_time (novel_id,entity_id,fact_key,valid_from),
+  KEY novel_memory_fact_idx_fact_source (source_version_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='版本化事实';
+
+CREATE TABLE character_state (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  entity_id VARCHAR(100) NOT NULL COMMENT '实体或知情者标识',
+  fact_key VARCHAR(100) NOT NULL COMMENT '事实属性键',
+  fact_value LONGTEXT NOT NULL COMMENT '事实值JSON',
+  valid_from BIGINT NOT NULL COMMENT '生效故事时间',
+  valid_to BIGINT NULL COMMENT '失效故事时间（不含）',
+  source_version_id BIGINT NULL COMMENT '来源章节正文版本',
+  source_chapter_no INT NOT NULL DEFAULT 0 COMMENT '来源叙事章节序号，0为作者设定',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY character_state_idx_fact_time (novel_id,entity_id,fact_key,valid_from),
+  KEY character_state_idx_fact_source (source_version_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='人物故事时间状态';
+
+CREATE TABLE knowledge_state (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  entity_id VARCHAR(100) NOT NULL COMMENT '实体或知情者标识',
+  fact_key VARCHAR(100) NOT NULL COMMENT '事实属性键',
+  fact_value LONGTEXT NOT NULL COMMENT '事实值JSON',
+  valid_from BIGINT NOT NULL COMMENT '生效故事时间',
+  valid_to BIGINT NULL COMMENT '失效故事时间（不含）',
+  source_version_id BIGINT NULL COMMENT '来源章节正文版本',
+  source_chapter_no INT NOT NULL DEFAULT 0 COMMENT '来源叙事章节序号，0为作者设定',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY knowledge_state_idx_fact_time (novel_id,entity_id,fact_key,valid_from),
+  KEY knowledge_state_idx_fact_source (source_version_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色及读者知识边界';
+
+CREATE TABLE novel_chapter_summary (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  chapter_id BIGINT NOT NULL COMMENT '所属章节',
+  source_version_id BIGINT NOT NULL COMMENT '来源正文版本',
+  summary LONGTEXT NOT NULL COMMENT '章节摘要',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY novel_chapter_summary_uk_summary (source_version_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='章节摘要';
+
+CREATE TABLE memory_chunk (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  source_version_id BIGINT NOT NULL COMMENT '来源正文版本',
+  chunk_no INT NOT NULL COMMENT '正文片段序号',
+  content LONGTEXT NOT NULL COMMENT '原文片段',
+  vector_id VARCHAR(100) NULL COMMENT '向量点ID',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY memory_chunk_uk_chunk (source_version_id,chunk_no)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='语义记忆片段';
+
+CREATE TABLE ai_provider (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  name VARCHAR(100) NOT NULL COMMENT '服务商名称',
+  protocol VARCHAR(50) NOT NULL COMMENT '协议类型',
+  base_url VARCHAR(500) NOT NULL COMMENT '默认接口地址',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY ai_provider_uk_provider (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='AI服务商';
+
+CREATE TABLE ai_credential (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  provider_id BIGINT NOT NULL COMMENT '服务商ID',
+  name VARCHAR(100) NOT NULL COMMENT '连接名称',
+  base_url VARCHAR(500) NOT NULL COMMENT '接口地址',
+  secret_cipher TEXT NOT NULL COMMENT 'AES-GCM密文（含随机nonce）',
+  fingerprint VARCHAR(64) NOT NULL COMMENT '密钥SHA256指纹',
+  mask VARCHAR(50) NOT NULL COMMENT '密钥展示掩码',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='加密模型连接';
+
+CREATE TABLE ai_model (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  credential_id BIGINT NOT NULL COMMENT '所属连接',
+  model_name VARCHAR(200) NOT NULL COMMENT '模型接口ID',
+  capabilities TEXT NOT NULL COMMENT '能力JSON数组',
+  context_limit INT NOT NULL DEFAULT 32000 COMMENT '上下文Token上限',
+  input_price DECIMAL(18,6) NOT NULL DEFAULT 0 COMMENT '每千输入Token价格',
+  output_price DECIMAL(18,6) NOT NULL DEFAULT 0 COMMENT '每千输出Token价格',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY ai_model_uk_model (credential_id,model_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='AI模型';
+
+CREATE TABLE prompt_template (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  name VARCHAR(100) NOT NULL COMMENT '模板名称',
+  content LONGTEXT NOT NULL COMMENT '模板正文',
+  version_no INT NOT NULL DEFAULT 1 COMMENT '模板版本',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='提示词模板';
+
+CREATE TABLE workflow_definition (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  name VARCHAR(200) NOT NULL COMMENT '工作流名称',
+  definition LONGTEXT NOT NULL COMMENT 'DAG草稿JSON',
+  published_version_id BIGINT NULL COMMENT '最近发布版本',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流草稿';
+
+CREATE TABLE workflow_version (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  workflow_id BIGINT NOT NULL COMMENT '工作流ID',
+  version_no INT NOT NULL COMMENT '发布版本号',
+  definition LONGTEXT NOT NULL COMMENT '不可变DAG快照JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY workflow_version_uk_workflow_version (workflow_id,version_no)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='已发布工作流快照';
+
+CREATE TABLE workflow_node (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  version_id BIGINT NOT NULL COMMENT '工作流版本',
+  node_key VARCHAR(100) NOT NULL COMMENT '节点标识',
+  type VARCHAR(50) NOT NULL COMMENT '节点类型',
+  config LONGTEXT NOT NULL COMMENT '节点参数JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY workflow_node_uk_node (version_id,node_key)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流节点快照';
+
+CREATE TABLE workflow_edge (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  version_id BIGINT NOT NULL COMMENT '工作流版本',
+  from_key VARCHAR(100) NOT NULL COMMENT '起始节点',
+  to_key VARCHAR(100) NOT NULL COMMENT '目标节点',
+  condition_json TEXT NULL COMMENT '分支条件JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流连接快照';
+
+CREATE TABLE workflow_run (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  chapter_id BIGINT NOT NULL COMMENT '执行章节',
+  version_id BIGINT NOT NULL COMMENT '固定工作流版本',
+  request_key VARCHAR(128) NOT NULL COMMENT '启动幂等键',
+  budget DECIMAL(18,6) NOT NULL DEFAULT 10 COMMENT '本次费用上限',
+  token_budget INT NOT NULL DEFAULT 100000 COMMENT '本次Token上限',
+  spent DECIMAL(18,6) NOT NULL DEFAULT 0 COMMENT '累计费用',
+  tokens INT NOT NULL DEFAULT 0 COMMENT '累计Token',
+  cursor_no INT NOT NULL DEFAULT 0 COMMENT '执行游标',
+  state_json LONGTEXT NOT NULL COMMENT '节点输出及执行上下文',
+  error_code VARCHAR(100) NULL COMMENT '失败原因码',
+  lease_until DATETIME(3) NULL COMMENT '执行租约截止时间',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY workflow_run_uk_request (request_key),
+  KEY workflow_run_idx_run_status (status,lease_until)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流运行实例';
+
+CREATE TABLE node_run (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  run_id BIGINT NOT NULL COMMENT '运行实例',
+  node_key VARCHAR(100) NOT NULL COMMENT '节点标识',
+  attempt INT NOT NULL DEFAULT 0 COMMENT '尝试次数',
+  started_at DATETIME(3) NULL COMMENT '开始时间',
+  finished_at DATETIME(3) NULL COMMENT '结束时间',
+  retry_at DATETIME(3) NULL COMMENT '重试时间',
+  error_code VARCHAR(100) NULL COMMENT '脱敏错误码',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY node_run_uk_node_run (run_id,node_key)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='节点执行记录';
+
+CREATE TABLE node_artifact (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  node_run_id BIGINT NOT NULL COMMENT '节点执行记录',
+  artifact LONGTEXT NOT NULL COMMENT '结构化输出JSON',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='节点产物';
+
+CREATE TABLE llm_usage_log (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  run_id BIGINT NULL COMMENT '工作流实例',
+  credential_id BIGINT NOT NULL COMMENT '模型连接',
+  model_name VARCHAR(200) NOT NULL COMMENT '模型名称',
+  input_tokens INT NOT NULL COMMENT '输入Token',
+  output_tokens INT NOT NULL COMMENT '输出Token',
+  cost DECIMAL(18,6) NOT NULL COMMENT '估算费用',
+  latency_ms BIGINT NOT NULL COMMENT '耗时毫秒',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  KEY llm_usage_log_idx_usage_run (run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模型调用用量';
+
+CREATE TABLE outbox_event (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  event_type VARCHAR(50) NOT NULL COMMENT '事件类型',
+  aggregate_id BIGINT NOT NULL COMMENT '章节版本或任务ID',
+  payload LONGTEXT NOT NULL COMMENT '事件载荷JSON',
+  attempt INT NOT NULL DEFAULT 0 COMMENT '尝试次数',
+  available_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '下一次执行时间',
+  last_error VARCHAR(100) NULL COMMENT '脱敏错误原因',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间',
+  UNIQUE KEY outbox_event_uk_outbox (event_type,aggregate_id),
+  KEY outbox_event_idx_outbox (status,available_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='可靠异步事件';
+
+CREATE TABLE memory_rebuild_job (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  novel_id BIGINT NOT NULL COMMENT '所属小说项目',
+  from_chapter INT NOT NULL COMMENT '重建起始章节',
+  cursor_chapter INT NOT NULL DEFAULT 0 COMMENT '重建游标',
+  error_code VARCHAR(100) NULL COMMENT '错误原因',
+  status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' COMMENT '业务状态',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记忆重建任务';
+
+CREATE TABLE audit_log (
+  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  trace_id VARCHAR(100) NOT NULL COMMENT '请求追踪ID',
+  action VARCHAR(200) NOT NULL COMMENT '操作路径',
+  result_code INT NOT NULL COMMENT '响应状态码',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最后更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作审计';
+
+INSERT INTO ai_provider(name,protocol,base_url) VALUES ('OpenAI','OPENAI','https://api.openai.com/v1'),('DeepSeek','OPENAI','https://api.deepseek.com/v1'),('Qwen','OPENAI','https://dashscope.aliyuncs.com/compatible-mode/v1');

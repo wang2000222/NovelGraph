@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <!-- 日志路径可通过 NG_LOG_DIR 配置；相对路径以应用工作目录为基准。 -->
+  <springProperty scope="context" name="LOG_DIR" source="logging.file.path" defaultValue="logs"/>
+  <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Shanghai} %-5level [%thread] %logger{40} - %msg%n"/>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder><charset>UTF-8</charset><pattern>${LOG_PATTERN}</pattern></encoder>
+  </appender>
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_DIR}/novelgraph.log</file>
+    <!-- 按上海时区每天归档并压缩；清理超过 30 天的归档，启动时也执行清理。 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_DIR}/archive/novelgraph.%d{yyyy-MM-dd,Asia/Shanghai}.log.gz</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <cleanHistoryOnStart>true</cleanHistoryOnStart>
+    </rollingPolicy>
+    <encoder><charset>UTF-8</charset><pattern>${LOG_PATTERN}</pattern></encoder>
+  </appender>
+  <!-- SQL 参数及 HTTP 请求内容可能包含凭据，默认不启用调试日志。 -->
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.mybatis" level="INFO"/>
+  <logger name="com.baomidou" level="INFO"/>
+  <root level="INFO"><appender-ref ref="CONSOLE"/><appender-ref ref="FILE"/></root>
+</configuration>

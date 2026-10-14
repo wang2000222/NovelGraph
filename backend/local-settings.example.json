@@ -1,0 +1,10 @@
+{
+  "DB_URL": "jdbc:mysql://127.0.0.1:3306/novelgraph?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false",
+  "DB_USERNAME": "root",
+  "DB_PASSWORD": "请填写数据库密码",
+  "NG_ADMIN_EMAIL": "admin@example.com",
+  "NG_ADMIN_PASSWORD": "请设置至少12位管理员密码",
+  "NG_PUBLIC_URL": "http://localhost:5173",
+  "NG_MAIL_FROM": "",
+  "NG_VERIFY_EMAIL": true
+}
