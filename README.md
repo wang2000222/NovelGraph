@@ -1,10 +1,12 @@
 # NovelGraph | 小说世界观与剧情管理平台
 
+**简体中文** | [English](README.en.md)
+
 **把分散的人物、事件和关系设定，整理成可以编辑、关联和追溯的创作工作空间。**
 
 NovelGraph 是一个 Java + Vue 全栈作品，展示从业务建模、接口开发、权限控制到可视化交互的实现能力。项目定位为个人作品展示；不代表付费客户案例，也不声称已有商业规模运营。
 
-[English introduction](docs/README.en.md) · [项目案例与演示脚本](docs/CASE_STUDY.md) · [运行与验证](docs/SETUP.md)
+[项目案例与演示脚本](docs/CASE_STUDY.md) · [运行与验证](docs/SETUP.md)
 
 ## 解决什么问题
 
