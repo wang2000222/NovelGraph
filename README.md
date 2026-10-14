@@ -57,3 +57,5 @@ flowchart LR
 ## 可以迁移到哪些业务
 
 项目中的账号权限、团队协作、结构化数据管理、批量导入、套餐和运营后台等能力，可用于内容管理平台、内部业务系统及会员服务网站。具体交付范围以客户需求为准。
+<img width="1209" height="569" alt="image" src="https://github.com/user-attachments/assets/e3760d82-23af-4c03-bcfb-bac439b51d3c" />
+
